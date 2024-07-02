@@ -1,0 +1,27 @@
+<div class="row justify-content-center row-gap-3 column-gap-md-3">
+  <div class="col-10 col-lg-8">
+    <img [src]="rutaImg + pelicula?.poster_path | imageURL" class="card-img-top"
+      alt="...">
+  </div>
+  <div class="col-12 m-3 text-center">
+    <h3 class="card-title">{{pelicula?.title}}</h3>
+    <div>
+      @for (i of pelicula?.production_companies; track $index) {
+      <span class="badge bg-primary ">{{i.name}}</span>&nbsp;
+      }
+    </div>
+    <p class="card-text">{{pelicula?.overview}}</p>
+    <div>
+      @for (i of pelicula?.genres; track $index) {
+      <span class="badge bg-secondary">{{i.name}}</span>&nbsp;
+      }
+    </div>
+    <p class="card-text"><b>Fecha Estreno: </b>{{pelicula?.release_date |
+      date:'dd MMM. yyyy'}}</p>
+    <p class="card-text"><b>Popularidad: </b>{{pelicula?.popularity | number:
+      '1.2-2'}}</p>
+    <p class="card-text"><b>Ingresos: </b>{{pelicula?.revenue | number:
+      '1.2-2'}}€</p>
+    <a class="btn btn-primary" routerLink="['/home']">Volver</a>
+  </div>
+</div>

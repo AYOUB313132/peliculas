@@ -1,0 +1,78 @@
+<div class="row justify-content-center m-3">
+
+  <form class="col-10 " [formGroup]="frmBusqueda" (ngSubmit)="enviar()">
+
+    <div class="mb-3">
+      <label for="genero" class="form-label">Genero</label>
+      <select name="genero" class="form-select"
+        formControlName="genero">
+        @for (g of generos?.genres; track $index) {
+        <option value="{{g.id}}">{{g.name}}</option>
+        }
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="votos" class="form-label">Media votos mínima</label>
+      <input formControlName="votos" type="number" class="form-control" min="0"
+        max="10"
+        id="votos">
+      @if(frmBusqueda.controls['votos'].errors?.['required'] ||
+      frmBusqueda.controls['votos'].errors?.['max'] ||
+      frmBusqueda.controls['votos'].errors?.['min']
+      (frmBusqueda.controls['votos'].dirty ||
+      frmBusqueda.controls['votos'].touched
+
+      )) {
+      <div class="mt-2 alert alert-danger">
+        Los votos debe ser entre 0 y 10
+      </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="fecha">Fecha esterna Posterior a</label>
+      <input formControlName="fecha" type="date" class="form-control"
+        id="fecha">
+    </div>
+
+    <button type="submit" class="btn btn-primary"
+      [disabled]="!frmBusqueda.valid">Descubrir</button>
+  </form>
+
+</div>
+@if(peliculas){
+
+<div class="row justify-content-center row-gap-3">
+  @for (p of peliculas.results; track $index) {
+  @defer (on viewport) {
+  <app-pelicula class="col-3" [pelicula]="p"></app-pelicula>
+  }@placeholder (minimum 1000ms) {
+  <div class="col-3" aria-hidden="true">
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
+      class="card-img-top" alt>
+    <div class="card-body">
+      <h5 class="card-title placeholder-glow">
+        <span class="placeholder col-6"></span>
+      </h5>
+      <p class="card-text placeholder-glow">
+        <span class="placeholder col-7"></span>
+        <span class="placeholder col-4"></span>
+        <span class="placeholder col-4"></span>
+        <span class="placeholder col-6"></span>
+        <span class="placeholder col-8"></span>
+      </p>
+      <a href="#" tabindex="-1"
+        class="btn btn-primary disabled placeholder   col-6"></a>
+    </div>
+  </div>
+  }@error {
+  <p>Se ha producido un error al cargar el componente</p>
+  }
+  }@empty {
+  <p class="alert alert-danger">No hay datos</p>
+  }
+</div>
+
+}
